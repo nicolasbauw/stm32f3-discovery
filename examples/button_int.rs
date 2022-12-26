@@ -46,7 +46,7 @@ fn main() -> ! {
         &mut gpioe.moder,
         &mut gpioe.otyper,
     );
-    let mut status_led = leds.ld3;
+    let mut status_led = leds.ld3_n;
 
     button::interrupt::enable(
         &device_periphs.EXTI,

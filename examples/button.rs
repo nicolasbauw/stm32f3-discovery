@@ -36,7 +36,7 @@ fn main() -> ! {
         &mut gpioe.moder,
         &mut gpioe.otyper,
     );
-    let mut status_led = leds.ld3;
+    let mut status_led = leds.ld3_n;
 
     // initialize user button
     let mut gpioa = device_periphs.GPIOA.split(&mut reset_and_clock_control.ahb);

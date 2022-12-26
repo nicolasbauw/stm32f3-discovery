@@ -43,21 +43,21 @@ type Led = Switch<gpioe::PEx<Output<PushPull>>, ActiveHigh>;
 
 pub struct Leds {
     /// North
-    pub ld3: Led,
+    pub ld3_n: Led,
     /// NorthWest
-    pub ld4: Led,
+    pub ld4_nw: Led,
     /// NorthEast
-    pub ld5: Led,
+    pub ld5_ne: Led,
     /// West
-    pub ld6: Led,
+    pub ld6_w: Led,
     /// East
-    pub ld7: Led,
+    pub ld7_e: Led,
     /// SouthWest
-    pub ld8: Led,
+    pub ld8_sw: Led,
     /// SouthEast
-    pub ld9: Led,
+    pub ld9_se: Led,
     /// South
-    pub ld10: Led,
+    pub ld10_s: Led,
 }
 
 impl Leds {
@@ -76,35 +76,35 @@ impl Leds {
         otyper: &mut gpioe::OTYPER,
     ) -> Self {
         let mut leds = Leds {
-            ld3: pe9
+            ld3_n: pe9
                 .into_push_pull_output(moder, otyper)
                 .downgrade()
                 .into_active_high_switch(),
-            ld4: pe8
+            ld4_nw: pe8
                 .into_push_pull_output(moder, otyper)
                 .downgrade()
                 .into_active_high_switch(),
-            ld5: pe10
+            ld5_ne: pe10
                 .into_push_pull_output(moder, otyper)
                 .downgrade()
                 .into_active_high_switch(),
-            ld6: pe15
+            ld6_w: pe15
                 .into_push_pull_output(moder, otyper)
                 .downgrade()
                 .into_active_high_switch(),
-            ld7: pe11
+            ld7_e: pe11
                 .into_push_pull_output(moder, otyper)
                 .downgrade()
                 .into_active_high_switch(),
-            ld8: pe14
+            ld8_sw: pe14
                 .into_push_pull_output(moder, otyper)
                 .downgrade()
                 .into_active_high_switch(),
-            ld9: pe12
+            ld9_se: pe12
                 .into_push_pull_output(moder, otyper)
                 .downgrade()
                 .into_active_high_switch(),
-            ld10: pe13
+            ld10_s: pe13
                 .into_push_pull_output(moder, otyper)
                 .downgrade()
                 .into_active_high_switch(),
@@ -127,14 +127,14 @@ impl Leds {
     /// ```
     pub fn for_direction(&mut self, direction: Direction) -> &mut Led {
         match direction {
-            Direction::North => &mut self.ld3,
-            Direction::NorthEast => &mut self.ld5,
-            Direction::East => &mut self.ld7,
-            Direction::SouthEast => &mut self.ld9,
-            Direction::South => &mut self.ld10,
-            Direction::SouthWest => &mut self.ld8,
-            Direction::West => &mut self.ld6,
-            Direction::NorthWest => &mut self.ld4,
+            Direction::North => &mut self.ld3_n,
+            Direction::NorthEast => &mut self.ld5_ne,
+            Direction::East => &mut self.ld7_e,
+            Direction::SouthEast => &mut self.ld9_se,
+            Direction::South => &mut self.ld10_s,
+            Direction::SouthWest => &mut self.ld8_sw,
+            Direction::West => &mut self.ld6_w,
+            Direction::NorthWest => &mut self.ld4_nw,
         }
     }
 
@@ -184,14 +184,14 @@ impl Leds {
     /// reduction in final binary size.
     pub fn into_array(self) -> [Led; 8] {
         [
-            self.ld3,  //N
-            self.ld5,  //NE
-            self.ld7,  //E
-            self.ld9,  //SE
-            self.ld10, //S
-            self.ld8,  //SW
-            self.ld6,  //W
-            self.ld4,  //NW
+            self.ld3_n,  //N
+            self.ld5_ne, //NE
+            self.ld7_e,  //E
+            self.ld9_se, //SE
+            self.ld10_s, //S
+            self.ld8_sw, //SW
+            self.ld6_w,  //W
+            self.ld4_nw, //NW
         ]
     }
 }
@@ -246,14 +246,14 @@ impl<'a> Iterator for LedsMutIterator<'a> {
                 // If len() does not return the correct number of remaining elements,
                 // this becomes unsound.
                 match self.index {
-                    0 => Some(&mut *(&mut self.leds.ld3 as *mut _)),  //N
-                    1 => Some(&mut *(&mut self.leds.ld5 as *mut _)),  //NE
-                    2 => Some(&mut *(&mut self.leds.ld7 as *mut _)),  //E
-                    3 => Some(&mut *(&mut self.leds.ld9 as *mut _)),  //SE
-                    4 => Some(&mut *(&mut self.leds.ld10 as *mut _)), //S
-                    5 => Some(&mut *(&mut self.leds.ld8 as *mut _)),  //SW
-                    6 => Some(&mut *(&mut self.leds.ld6 as *mut _)),  //W
-                    7 => Some(&mut *(&mut self.leds.ld4 as *mut _)),  //NW
+                    0 => Some(&mut *(&mut self.leds.ld3_n as *mut _)), //N
+                    1 => Some(&mut *(&mut self.leds.ld5_ne as *mut _)), //NE
+                    2 => Some(&mut *(&mut self.leds.ld7_e as *mut _)), //E
+                    3 => Some(&mut *(&mut self.leds.ld9_se as *mut _)), //SE
+                    4 => Some(&mut *(&mut self.leds.ld10_s as *mut _)), //S
+                    5 => Some(&mut *(&mut self.leds.ld8_sw as *mut _)), //SW
+                    6 => Some(&mut *(&mut self.leds.ld6_w as *mut _)), //W
+                    7 => Some(&mut *(&mut self.leds.ld4_nw as *mut _)), //NW
                     _ => None,
                 }
             };
@@ -283,16 +283,16 @@ impl<'a> DoubleEndedIterator for LedsMutIterator<'a> {
                 match self.index_back {
                     // Because we're going backwards and index_back is a usize,
                     // We use a one based index so we don't go negative
-                    0 => None,                                        //done
-                    1 => Some(&mut *(&mut self.leds.ld3 as *mut _)),  //N
-                    2 => Some(&mut *(&mut self.leds.ld5 as *mut _)),  //NE
-                    3 => Some(&mut *(&mut self.leds.ld7 as *mut _)),  //E
-                    4 => Some(&mut *(&mut self.leds.ld9 as *mut _)),  //SE
-                    5 => Some(&mut *(&mut self.leds.ld10 as *mut _)), //S
-                    6 => Some(&mut *(&mut self.leds.ld8 as *mut _)),  //SW
-                    7 => Some(&mut *(&mut self.leds.ld6 as *mut _)),  //W
-                    8 => Some(&mut *(&mut self.leds.ld4 as *mut _)),  //NW
-                    _ => None,                                        //can't happen
+                    0 => None,                                          //done
+                    1 => Some(&mut *(&mut self.leds.ld3_n as *mut _)),  //N
+                    2 => Some(&mut *(&mut self.leds.ld5_ne as *mut _)), //NE
+                    3 => Some(&mut *(&mut self.leds.ld7_e as *mut _)),  //E
+                    4 => Some(&mut *(&mut self.leds.ld9_se as *mut _)), //SE
+                    5 => Some(&mut *(&mut self.leds.ld10_s as *mut _)), //S
+                    6 => Some(&mut *(&mut self.leds.ld8_sw as *mut _)), //SW
+                    7 => Some(&mut *(&mut self.leds.ld6_w as *mut _)),  //W
+                    8 => Some(&mut *(&mut self.leds.ld4_nw as *mut _)), //NW
+                    _ => None,                                          //can't happen
                 }
             };
             self.index_back -= 1;

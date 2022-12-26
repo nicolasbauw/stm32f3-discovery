@@ -38,15 +38,15 @@ fn main() -> ! {
     );
 
     loop {
-        leds.ld3.toggle().ok();
+        leds.ld3_n.toggle().ok();
         delay.delay_ms(1000u16);
-        leds.ld3.toggle().ok();
+        leds.ld3_n.toggle().ok();
         delay.delay_ms(1000u16);
 
         //explicit on/off
-        leds.ld4.on().ok();
+        leds.ld4_nw.on().ok();
         delay.delay_ms(1000u16);
-        leds.ld4.off().ok();
+        leds.ld4_nw.off().ok();
         delay.delay_ms(1000u16);
     }
 }
