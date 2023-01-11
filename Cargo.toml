@@ -33,6 +33,7 @@ accelerometer = "0.12.0"
 [dependencies.stm32f3xx-hal]
 git = "https://github.com/robamu/stm32f3xx-hal"
 version = "0.10.0-alpha.0"
+branch = "all_features"
 features = ["stm32f303xc", "rt"]
 
 [dev-dependencies]
